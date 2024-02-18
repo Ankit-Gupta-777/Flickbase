@@ -1,0 +1,61 @@
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import Grid from "@mui/material/Grid";
+import TextField  from "@mui/material/TextField";
+import Divider from "@mui/material/Divider";
+import EditIcon from '@mui/icons-material/Edit';
+import Modal from "react-bootstrap/Modal";
+import Edit from "@mui/icons-material/Edit";
+import EmailStepper from "./stepper/emailStepper";
+
+const AuthProfile = ()=>{
+    const [emailModal,setEmailModal] = useState(false);
+    const users = useSelector(state=>state.users);
+    const closeModal = ()=> setEmailModal(false);
+    const openModal = ()=> setEmailModal(true);
+
+
+    return(
+        <div>
+            <div className="mb-3 auth_grid">
+                <Grid container spacing={1} alignItems="flex-end">
+                    <Grid item>
+                        <TextField
+                         value={users.data.email}
+                         disabled
+                         variant="standard"
+                        />
+
+                    </Grid>
+                    <Grid item>
+                       <EditIcon
+                       color="primary"
+                       onClick={openModal}
+                       />
+
+                    </Grid>
+
+                </Grid>
+
+            </div>
+            <Divider/>
+            <Modal size="lg" centered show={emailModal} onHide={closeModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>
+                        Update Your Email
+                    </Modal.Title>
+
+                </Modal.Header>
+                <Modal.Body>
+                    <EmailStepper
+                    user={users}
+                    closeModal={closeModal}
+                    />
+                </Modal.Body>
+            </Modal>
+           
+        </div>
+    )
+}
+
+export default AuthProfile;
